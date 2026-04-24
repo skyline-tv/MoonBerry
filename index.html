@@ -1,9 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moonberry - Coming Soon</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moonberry — Coming Soon</title>
+<title>Moonberry - Coming Soon</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -232,48 +244,86 @@
     animation: fadeUp 1.2s 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  .logo-text {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.1em;
+  }
+
+  .logo-text.show {
+    display: block;
+  }
+
   @media (max-width: 600px) {
     .container {
       padding: 2rem 1.3rem;
       margin: 0 0.8rem;
     }
   }
-
 </style>
 </head>
 <body>
+<div id="root"></div>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="floating-elements" aria-hidden="true">
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-  <span class="float-item"></span>
-</div>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  const { useState } = React;
 
-<div class="container">
-  <div class="logo-wrap">
-    <img class="logo-img" src="logo.png" alt="Moonberry" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'">
-    <div id="logo-text" style="display:none; font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--cream); letter-spacing:0.1em;">MOONBERRY</div>
-  </div>
+  function App() {
+    const [logoFailed, setLogoFailed] = useState(false);
+    const products = ["Perfume", "Haircare", "Nail Beauty", "Body Essentials"];
 
-  <p class="luxury-badge">Luxury Beauty House</p>
-  <div class="divider"></div>
-  <p class="tagline">Coming Soon</p>
-  <p class="description">Designed for women, Moonberry brings together signature fragrances, nourishing haircare, nail favorites, and everyday beauty essentials in one refined collection.</p>
-  <ul class="product-list">
-    <li class="product-pill">Perfume</li>
-    <li class="product-pill">Haircare</li>
-    <li class="product-pill">Nail Beauty</li>
-    <li class="product-pill">Body Essentials</li>
-  </ul>
-  <p class="premium-note">Crafted to feel indulgent, made to become your daily ritual.</p>
-</div>
+    return (
+      <>
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
 
+        <div className="floating-elements" aria-hidden="true">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <span className="float-item" key={index}></span>
+          ))}
+        </div>
+
+        <div className="container">
+          <div className="logo-wrap">
+            {!logoFailed && (
+              <img
+                className="logo-img"
+                src="logo.png"
+                alt="Moonberry"
+                onError={() => setLogoFailed(true)}
+              />
+            )}
+            <div className={`logo-text ${logoFailed ? "show" : ""}`}>MOONBERRY</div>
+          </div>
+
+          <p className="luxury-badge">Luxury Beauty House</p>
+          <div className="divider"></div>
+          <p className="tagline">Coming Soon</p>
+          <p className="description">
+            Designed for women, Moonberry brings together signature fragrances,
+            nourishing haircare, nail favorites, and everyday beauty essentials
+            in one refined collection.
+          </p>
+          <ul className="product-list">
+            {products.map((product) => (
+              <li className="product-pill" key={product}>{product}</li>
+            ))}
+          </ul>
+          <p className="premium-note">
+            Crafted to feel indulgent, made to become your daily ritual.
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
 </body>
 </html>
